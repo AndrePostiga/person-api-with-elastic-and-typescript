@@ -1,33 +1,22 @@
 /* eslint-disable class-methods-use-this */
+import { badRequest } from '../helpers/HttpHelper';
 
 export class ProductController {
   handle(httpRequest: any): any {
     if (!httpRequest.body.name) {
-      return {
-        statusCode: 400,
-        body: new Error('Missing parameter name'),
-      };
+      return badRequest(new Error('Missing parameter name'));
     }
 
     if (!httpRequest.body.description) {
-      return {
-        statusCode: 400,
-        body: new Error('Missing parameter description'),
-      };
+      return badRequest(new Error('Missing parameter description'));
     }
 
     if (!(httpRequest.body.category && httpRequest.body.category.length)) {
-      return {
-        statusCode: 400,
-        body: new Error('Missing parameter category'),
-      };
+      return badRequest(new Error('Missing parameter category'));
     }
 
     if (!httpRequest.body.price) {
-      return {
-        statusCode: 400,
-        body: new Error('Missing parameter price'),
-      };
+      return badRequest(new Error('Missing parameter price'));
     }
     return {
       statusCode: 200,
