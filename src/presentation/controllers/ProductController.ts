@@ -16,6 +16,13 @@ export class ProductController {
       };
     }
 
+    if (!(httpRequest.body.category && httpRequest.body.category.length)) {
+      return {
+        statusCode: 400,
+        body: new Error('Missing parameter category'),
+      };
+    }
+
     return {
       statusCode: 200,
     };
