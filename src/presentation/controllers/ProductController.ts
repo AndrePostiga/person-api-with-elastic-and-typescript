@@ -9,6 +9,13 @@ export class ProductController {
       };
     }
 
+    if (!httpRequest.body.description) {
+      return {
+        statusCode: 400,
+        body: new Error('Missing parameter description'),
+      };
+    }
+
     return {
       statusCode: 200,
     };
