@@ -20,12 +20,21 @@
     "plugins": [
         "@typescript-eslint"
     ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"],
+                "moduleDirectory": ["node_modules", "src/"]
+            }
+        }
+    },
     "rules": {
         "@typescript-eslint/camelcase": "off",
         "@typescript-eslint/naming-convention": [
             "error",
             { "selector": "variableLike", "format": ["camelCase"] }
         ],
-        "import/prefer-default-export": "off"
+        "import/prefer-default-export": "off",
+        "import/extensions": "off"
     }
 }
