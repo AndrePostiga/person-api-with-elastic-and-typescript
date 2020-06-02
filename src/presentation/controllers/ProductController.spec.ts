@@ -77,4 +77,20 @@ describe('Product Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new Error('Missing parameter price'));
   });
+
+  it('Should return 400 if no brand is provided', () => {
+    const sut = new ProductController();
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        description: 'any_desc',
+        image_url: 'any_url',
+        category: ['any_cat', 'another_cat'],
+        price: 99,
+      },
+    };
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new Error('Missing parameter brand'));
+  });
 });
