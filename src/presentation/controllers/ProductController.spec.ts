@@ -29,4 +29,20 @@ describe('Product Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new Error('Missing parameter name'));
   });
+
+  it('Should return 400 if no description is provided', () => {
+    const sut = new ProductController();
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        image_url: 'any_url',
+        category: 'any_cat',
+        price: 99,
+        brand: 'any_brand',
+      },
+    };
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new Error('Missing parameter description'));
+  });
 });
