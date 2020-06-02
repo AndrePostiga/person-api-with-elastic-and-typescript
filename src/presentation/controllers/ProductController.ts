@@ -23,6 +23,12 @@ export class ProductController {
       };
     }
 
+    if (!httpRequest.body.price) {
+      return {
+        statusCode: 400,
+        body: new Error('Missing parameter price'),
+      };
+    }
     return {
       statusCode: 200,
     };
