@@ -19,6 +19,10 @@ export class ProductController {
     if (!httpRequest.body.price) {
       return badRequest(new MissingParamError('price'));
     }
+
+    if (!httpRequest.body.brand) {
+      return badRequest(new MissingParamError('brand'));
+    }
     return {
       statusCode: 200,
     };
