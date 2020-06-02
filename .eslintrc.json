@@ -1,0 +1,29 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/naming-convention": [
+            "error",
+            { "selector": "variableLike", "format": ["camelCase"] }
+        ],
+        "import/prefer-default-export": "off"
+    }
+}
