@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 
 import { ProductController } from './ProductController';
+import { HttpRequest } from '../interfaces/http';
 
-// const httpRequest = {
+// const httpRequest: HttpRequest = {
 //   body: {
 //     name: 'any_name',
 //     description: 'any_desc',
@@ -16,7 +18,7 @@ import { ProductController } from './ProductController';
 describe('Product Controller', () => {
   it('Should return 400 if no name if passed', () => {
     const sut = new ProductController();
-    const httpRequest = {
+    const httpRequest: HttpRequest = {
       body: {
         description: 'any_desc',
         image_url: 'any_url',
@@ -32,7 +34,7 @@ describe('Product Controller', () => {
 
   it('Should return 400 if no description is provided', () => {
     const sut = new ProductController();
-    const httpRequest = {
+    const httpRequest: HttpRequest = {
       body: {
         name: 'any_name',
         image_url: 'any_url',
@@ -48,7 +50,7 @@ describe('Product Controller', () => {
 
   it('Should return 400 if no category is provided', () => {
     const sut = new ProductController();
-    const httpRequest = {
+    const httpRequest: HttpRequest = {
       body: {
         name: 'any_name',
         description: 'any_desc',
@@ -64,7 +66,7 @@ describe('Product Controller', () => {
 
   it('Should return 400 if no price is provided', () => {
     const sut = new ProductController();
-    const httpRequest = {
+    const httpRequest: HttpRequest = {
       body: {
         name: 'any_name',
         description: 'any_desc',
@@ -80,7 +82,7 @@ describe('Product Controller', () => {
 
   it('Should return 400 if no brand is provided', () => {
     const sut = new ProductController();
-    const httpRequest = {
+    const httpRequest: HttpRequest = {
       body: {
         name: 'any_name',
         description: 'any_desc',

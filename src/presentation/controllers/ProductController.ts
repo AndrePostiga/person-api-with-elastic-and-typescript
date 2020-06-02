@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable consistent-return */
 /* eslint-disable class-methods-use-this */
 import { badRequest } from '../helpers/HttpHelper';
 import { MissingParamError } from '../errors/MissingParameter';
+import { HttpRequest, HttpResponse } from '../interfaces/http';
 
 export class ProductController {
-  handle(httpRequest: any): any {
+  handle(httpRequest: HttpRequest): HttpResponse {
     if (!httpRequest.body.name) {
       return badRequest(new MissingParamError('name'));
     }
@@ -23,8 +26,5 @@ export class ProductController {
     if (!httpRequest.body.brand) {
       return badRequest(new MissingParamError('brand'));
     }
-    return {
-      statusCode: 200,
-    };
   }
 }
