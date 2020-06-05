@@ -5,17 +5,37 @@
 import { HttpRequest, HttpResponse, Controller, Validator } from '../interfaces';
 import { MissingParamError, InvalidParamError } from '../errors';
 import { badRequest, serverError } from '../helpers/HttpHelper';
+import { AddPerson } from '../../domain/usecases/addPerson';
 
 export class PersonController implements Controller {
+  private readonly addPerson: AddPerson;
+
   private readonly validator: Validator;
 
-  constructor(validator: Validator) {
+  constructor(validator: Validator, addPerson: AddPerson) {
     this.validator = validator;
+    this.addPerson = addPerson;
   }
 
   handle(httpRequest: HttpRequest): HttpResponse {
     try {
-      const requiredFields = ['name', 'last_name', 'color', 'gender', 'birth_date', 'profession'];
+      const {
+        name,
+        lastName,
+        color,
+        gender,
+        birthDate,
+        profession,
+        socialNetwork,
+        legalPerson,
+        address,
+        scholarity,
+        family,
+        deathDate,
+        health,
+      } = httpRequest.body;
+
+      const requiredFields = ['name', 'lastName', 'color', 'gender', 'birthDate', 'profession'];
 
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
@@ -28,10 +48,21 @@ export class PersonController implements Controller {
         return badRequest(new InvalidParamError('color'));
       }
 
-      return {
-        statusCode: 200,
-        body: true,
-      };
+      this.addPerson.add({
+        name,
+        lastName,
+        color,
+        gender,
+        birthDate,
+        profession,
+        socialNetwork,
+        legalPerson,
+        address,
+        scholarity,
+        family,
+        deathDate,
+        health,
+      });
     } catch (error) {
       return serverError();
     }
