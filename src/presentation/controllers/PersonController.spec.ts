@@ -149,4 +149,16 @@ describe('Product Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('color'));
   });
+  it('Should call validator with correct argument', () => {
+    const { sut, validatorStub } = makeSut();
+    const isValidySpy = jest.spyOn(validatorStub, 'isValid');
+    const httpRequest: HttpRequest = {
+      body: person,
+    };
+
+    httpRequest.body.color = 'any_color';
+
+    sut.handle(httpRequest);
+    expect(isValidySpy).toHaveBeenCalledWith('any_color');
+  });
 });
