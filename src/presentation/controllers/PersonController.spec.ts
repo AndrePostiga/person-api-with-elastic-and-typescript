@@ -53,14 +53,26 @@ interface SutTypes {
   validatorStub: Validator;
 }
 
-const makeSut = (): SutTypes => {
+const makeValidator = (): Validator => {
   class ValidatorStub implements Validator {
     isValid(param: string): boolean {
       return true;
     }
   }
 
-  const validatorStub = new ValidatorStub();
+  return new ValidatorStub();
+};
+const makeValidatorWithError = (): Validator => {
+  class ValidatorStub implements Validator {
+    isValid(param: string): boolean {
+      throw new Error();
+    }
+  }
+
+  return new ValidatorStub();
+};
+const makeSut = (): SutTypes => {
+  const validatorStub = makeValidator();
   const sut = new PersonController(validatorStub);
   return {
     sut,
@@ -161,13 +173,7 @@ describe('Product Controller', () => {
     expect(isValidySpy).toHaveBeenCalledWith('any_color');
   });
   it('Should return 500 if validator throws exception', () => {
-    class ValidatorStub implements Validator {
-      isValid(param: string): boolean {
-        throw new Error();
-      }
-    }
-
-    const validatorStub = new ValidatorStub();
+    const validatorStub = makeValidatorWithError();
     const sut = new PersonController(validatorStub);
 
     const httpRequest: HttpRequest = {
