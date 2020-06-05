@@ -3,12 +3,10 @@
 /* eslint-disable consistent-return */
 /* eslint-disable class-methods-use-this */
 import { badRequest, serverError } from '../helpers/HttpHelper';
-import { MissingParamError } from '../errors/MissingParameter';
+import { MissingParamError, InvalidParamError } from '../errors';
 import { HttpRequest, HttpResponse } from '../interfaces/http';
 import { Controller } from '../interfaces/controller';
 import { Validator } from '../interfaces/validator';
-import { InvalidParamError } from '../errors/InvalidParameter';
-import { ServerError } from '../errors/ServerError';
 
 export class PersonController implements Controller {
   private readonly validator: Validator;

@@ -7,10 +7,8 @@
 
 import { PersonController } from './PersonController';
 import { HttpRequest } from '../interfaces/http';
-import { MissingParamError } from '../errors/MissingParameter';
-import { InvalidParamError } from '../errors/InvalidParameter';
+import { MissingParamError, InvalidParamError, ServerError } from '../errors';
 import { Validator } from '../interfaces/validator';
-import { ServerError } from '../errors/ServerError';
 
 const person = {
   id: '0051',
