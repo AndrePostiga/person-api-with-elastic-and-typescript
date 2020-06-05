@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable camelcase */
@@ -9,6 +10,7 @@ import { HttpRequest } from '../interfaces/http';
 import { MissingParamError } from '../errors/MissingParameter';
 import { InvalidParamError } from '../errors/InvalidParameter';
 import { Validator } from '../interfaces/validator';
+import { ServerError } from '../errors/ServerError';
 
 const person = {
   id: '0051',
@@ -160,5 +162,23 @@ describe('Product Controller', () => {
 
     sut.handle(httpRequest);
     expect(isValidySpy).toHaveBeenCalledWith('any_color');
+  });
+  it('Should return 500 if validator throws exception', () => {
+    class ValidatorStub implements Validator {
+      isValid(param: string): boolean {
+        throw new Error();
+      }
+    }
+
+    const validatorStub = new ValidatorStub();
+    const sut = new PersonController(validatorStub);
+
+    const httpRequest: HttpRequest = {
+      body: person,
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(500);
+    expect(httpResponse.body).toEqual(new ServerError());
   });
 });
