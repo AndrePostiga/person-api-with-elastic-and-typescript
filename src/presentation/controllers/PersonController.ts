@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 /* eslint-disable class-methods-use-this */
-import { badRequest } from '../helpers/HttpHelper';
+import { badRequest, serverError } from '../helpers/HttpHelper';
 import { MissingParamError } from '../errors/MissingParameter';
 import { HttpRequest, HttpResponse } from '../interfaces/http';
 import { Controller } from '../interfaces/controller';
@@ -37,10 +37,7 @@ export class PersonController implements Controller {
         body: true,
       };
     } catch (error) {
-      return {
-        statusCode: 500,
-        body: new ServerError(),
-      };
+      return serverError();
     }
   }
 }
