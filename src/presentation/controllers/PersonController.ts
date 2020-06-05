@@ -2,11 +2,9 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 /* eslint-disable class-methods-use-this */
-import { badRequest, serverError } from '../helpers/HttpHelper';
+import { HttpRequest, HttpResponse, Controller, Validator } from '../interfaces';
 import { MissingParamError, InvalidParamError } from '../errors';
-import { HttpRequest, HttpResponse } from '../interfaces/http';
-import { Controller } from '../interfaces/controller';
-import { Validator } from '../interfaces/validator';
+import { badRequest, serverError } from '../helpers/HttpHelper';
 
 export class PersonController implements Controller {
   private readonly validator: Validator;

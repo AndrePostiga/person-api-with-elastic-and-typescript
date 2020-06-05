@@ -4,10 +4,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-
-import { PersonController } from './PersonController';
-import { HttpRequest } from '../interfaces/http';
 import { MissingParamError, InvalidParamError, ServerError } from '../errors';
+import { PersonController } from './PersonController';
+import { HttpRequest } from '../interfaces';
 import { Validator } from '../interfaces/validator';
 
 const person = {
