@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-vars */
@@ -6,6 +7,8 @@
 import { PersonController } from './PersonController';
 import { HttpRequest } from '../interfaces/http';
 import { MissingParamError } from '../errors/MissingParameter';
+import { InvalidParamError } from '../errors/InvalidParameter';
+import { Validator } from '../interfaces/validator';
 
 const person = {
   id: '0051',
@@ -46,13 +49,29 @@ const person = {
   social_networks: ['twitter', 'facebook'],
 };
 
-const makeSut = (): PersonController => {
-  return new PersonController();
+interface SutTypes {
+  sut: PersonController;
+  validatorStub: Validator;
+}
+
+const makeSut = (): SutTypes => {
+  class ValidatorStub implements Validator {
+    isValid(param: string): boolean {
+      return true;
+    }
+  }
+
+  const validatorStub = new ValidatorStub();
+  const sut = new PersonController(validatorStub);
+  return {
+    sut,
+    validatorStub,
+  };
 };
 
 describe('Product Controller', () => {
   it('Should return 400 if no name is passed', () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const { name, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -62,9 +81,8 @@ describe('Product Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('name'));
   });
-
   it('Should return 400 if no last name is provided', () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const { last_name, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -74,9 +92,8 @@ describe('Product Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('last_name'));
   });
-
   it('Should return 400 if no color is provided', () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const { color, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -86,9 +103,8 @@ describe('Product Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('color'));
   });
-
   it('Should return 400 if no gender is provided', () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const { gender, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -99,7 +115,7 @@ describe('Product Controller', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('gender'));
   });
   it('Should return 400 if no birth date is provided', () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const { birth_date, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -109,9 +125,8 @@ describe('Product Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('birth_date'));
   });
-
   it('Should return 400 if no profession date is provided', () => {
-    const sut = makeSut();
+    const { sut } = makeSut();
     const { profession, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -120,5 +135,18 @@ describe('Product Controller', () => {
     const httpResponse = sut.handle(httpRequest);
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('profession'));
+  });
+  it('Should return 400 if no wrong color is provided', () => {
+    const { sut, validatorStub } = makeSut();
+    jest.spyOn(validatorStub, 'isValid').mockReturnValueOnce(false);
+    const httpRequest: HttpRequest = {
+      body: person,
+    };
+
+    httpRequest.body.color = 'any_color';
+
+    const httpResponse = sut.handle(httpRequest);
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new InvalidParamError('color'));
   });
 });
