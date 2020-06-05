@@ -25,11 +25,7 @@
       ],
       "partner": "false"
     },
-<<<<<<< HEAD
     "death_date": {
-=======
-    "death_ate": {
->>>>>>> 8c963f09d11c41a604333843138ad7756fca3c35
       "date": "2999-01-01",
       "causes": ["murder"]
     },
@@ -42,11 +38,7 @@
       },
       "smoker": true
     },
-<<<<<<< HEAD
     "profession": ["Student"],
-=======
-    "profession": true,
->>>>>>> 8c963f09d11c41a604333843138ad7756fca3c35
     "social_networks": ["twitter","facebook"]
   }
 }
