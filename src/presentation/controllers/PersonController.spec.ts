@@ -46,9 +46,13 @@ const person = {
   social_networks: ['twitter', 'facebook'],
 };
 
+const makeSut = (): PersonController => {
+  return new PersonController();
+};
+
 describe('Product Controller', () => {
   it('Should return 400 if no name is passed', () => {
-    const sut = new PersonController();
+    const sut = makeSut();
     const { name, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -60,7 +64,7 @@ describe('Product Controller', () => {
   });
 
   it('Should return 400 if no last name is provided', () => {
-    const sut = new PersonController();
+    const sut = makeSut();
     const { last_name, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -72,7 +76,7 @@ describe('Product Controller', () => {
   });
 
   it('Should return 400 if no color is provided', () => {
-    const sut = new PersonController();
+    const sut = makeSut();
     const { color, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -84,7 +88,7 @@ describe('Product Controller', () => {
   });
 
   it('Should return 400 if no gender is provided', () => {
-    const sut = new PersonController();
+    const sut = makeSut();
     const { gender, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -95,7 +99,7 @@ describe('Product Controller', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('gender'));
   });
   it('Should return 400 if no birth date is provided', () => {
-    const sut = new PersonController();
+    const sut = makeSut();
     const { birth_date, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
@@ -107,7 +111,7 @@ describe('Product Controller', () => {
   });
 
   it('Should return 400 if no profession date is provided', () => {
-    const sut = new PersonController();
+    const sut = makeSut();
     const { profession, ...mock } = person;
     const httpRequest: HttpRequest = {
       body: mock,
