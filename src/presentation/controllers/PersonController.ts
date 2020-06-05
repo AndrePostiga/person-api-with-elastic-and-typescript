@@ -8,6 +8,7 @@ import { HttpRequest, HttpResponse } from '../interfaces/http';
 import { Controller } from '../interfaces/controller';
 import { Validator } from '../interfaces/validator';
 import { InvalidParamError } from '../errors/InvalidParameter';
+import { ServerError } from '../errors/ServerError';
 
 export class PersonController implements Controller {
   private readonly validator: Validator;
@@ -17,22 +18,29 @@ export class PersonController implements Controller {
   }
 
   handle(httpRequest: HttpRequest): HttpResponse {
-    const requiredFields = ['name', 'last_name', 'color', 'gender', 'birth_date', 'profession'];
+    try {
+      const requiredFields = ['name', 'last_name', 'color', 'gender', 'birth_date', 'profession'];
 
-    for (const field of requiredFields) {
-      if (!httpRequest.body[field]) {
-        return badRequest(new MissingParamError(field));
+      for (const field of requiredFields) {
+        if (!httpRequest.body[field]) {
+          return badRequest(new MissingParamError(field));
+        }
       }
-    }
 
-    const isValid = this.validator.isValid(httpRequest.body.color);
-    if (!isValid) {
-      return badRequest(new InvalidParamError('color'));
-    }
+      const isValid = this.validator.isValid(httpRequest.body.color);
+      if (!isValid) {
+        return badRequest(new InvalidParamError('color'));
+      }
 
-    return {
-      statusCode: 200,
-      body: true,
-    };
+      return {
+        statusCode: 200,
+        body: true,
+      };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: new ServerError(),
+      };
+    }
   }
 }
