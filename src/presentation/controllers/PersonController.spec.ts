@@ -62,15 +62,6 @@ const makeValidator = (): Validator => {
 
   return new ValidatorStub();
 };
-const makeValidatorWithError = (): Validator => {
-  class ValidatorStub implements Validator {
-    isValid(param: string): boolean {
-      throw new Error();
-    }
-  }
-
-  return new ValidatorStub();
-};
 const makeSut = (): SutTypes => {
   const validatorStub = makeValidator();
   const sut = new PersonController(validatorStub);
@@ -173,9 +164,10 @@ describe('Product Controller', () => {
     expect(isValidySpy).toHaveBeenCalledWith('any_color');
   });
   it('Should return 500 if validator throws exception', () => {
-    const validatorStub = makeValidatorWithError();
-    const sut = new PersonController(validatorStub);
-
+    const { sut, validatorStub } = makeSut();
+    jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error();
+    });
     const httpRequest: HttpRequest = {
       body: person,
     };
